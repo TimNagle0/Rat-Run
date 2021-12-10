@@ -1,0 +1,142 @@
+{
+    "title":"PXI",
+    "code":"",
+    "questions":[
+       {
+          "questiontype":"radiogrid",
+          "id":"PXI",
+          "shuffle": "true",
+          "labels":[
+             "Strongly disagree",
+             "Disagree",
+             "Slightly disagree",
+             "Neither disagree, neither agree",
+             "Slightly agree",
+             "Agree",
+             "Strongly agree"
+          ],
+          "q_text":[
+             {
+                "id":"q_1",
+                "text":"It was easy to know how to perform actions in the game."
+             },
+             {
+                "id":"q_2",
+                "text":"The actions to control the game were clear to me."
+             },
+             {
+                "id":"q_3",
+                "text":"I thought the game was easy to control."
+             },
+             {
+                "id":"q_4",
+                "text":"I grasped the overall goal of the game."
+             },
+             {
+                "id":"q_5",
+                "text":"The goals of the game were clear to me."
+             },
+             {
+                "id":"q_6",
+                "text":"I understood the objectives of the game."
+             },
+             {
+                "id":"q_7",
+                "text":"The game was not too easy and not too hard to play."
+             },
+             {
+                "id":"q_8",
+                "text":"The game was challenging but not too challenging."
+             },
+             {
+                "id":"q_9",
+                "text":"The challenges in the game were at the right level of difficulty for me."
+             },
+             {
+                "id":"q_10",
+                "text":"The game informed me of my progress in the game."
+             },
+             {
+                "id":"q_11",
+                "text":"I could easily assess how I was performing in the game."
+             },
+             {
+                "id":"q_12",
+                "text":"The game gave me clear feedback on my progress towards the goals."
+             },
+             {
+                "id":"q_13",
+                "text":"I enjoyed the way the game was styled."
+             },
+             {
+                "id":"q_14",
+                "text":"I liked the look and feel of the game."
+             },
+             {
+                "id":"q_15",
+                "text":"I appreciated the aesthetics of the game."
+             },
+             {
+                "id":"q_16",
+                "text":"Playing the game was meaningful to me."
+             },
+             {
+                "id":"q_17",
+                "text":"The game felt relevant to me."
+             },
+             {
+                "id":"q_18",
+                "text":"Playing this game was valuable to me."
+             },
+             {
+                "id":"q_19",
+                "text":"I wanted to explore how the game evolved."
+             },
+             {
+                "id":"q_20",
+                "text":"I wanted to find out how the game progressed."
+             },
+             {
+                "id":"q_21",
+                "text":"I felt eager to discover how the game continued."
+             },
+             {
+                "id":"q_22",
+                "text":"I felt I was good at playing this game."
+             },
+             {
+                "id":"q_23",
+                "text":"I felt capable while playing the game."
+             },
+             {
+                "id":"q_24",
+                "text":"I felt a sense of mastery playing this game."
+             },
+             {
+                "id":"q_25",
+                "text":"I was no longer aware of my surroundings while I was playing."
+             },
+             {
+                "id":"q_26",
+                "text":"I was immersed in the game."
+             },
+             {
+                "id":"q_27",
+                "text":"I was fully focused on the game."
+             },
+             {
+                "id":"q_28",
+                "text":"I felt free to play the game in my own way."
+             },
+             {
+                "id":"q_29",
+                "text":"I felt like I had choices regarding how I wanted to play this game."
+             },
+             {
+                "id":"q_30",
+                "text":"I felt a sense of freedom about how I wanted to play this game."
+             }
+          ]
+       }
+    ]
+ }

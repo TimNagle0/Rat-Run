@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | unity_project</title>
+</head>
+<body style="text-align: center">
+<canvas id="unity-canvas" width=1600 height=900 style="width: 1600px; height: 900px; background: #231F20"></canvas>
+
+
+<script src="Rat_Run_Standard/Rat_Run_Standard.loader.js"></script>
+<script>
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        // Mobile device style: fill the whole browser client area with the game canvas:
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+        document.getElementsByTagName('head')[0].appendChild(meta);
+    }
+
+    var gameInstance = null;
+    createUnityInstance(document.querySelector("#unity-canvas"), {
+        dataUrl: "Rat_Run_Standard/Rat_Run_Standard.data.gz",
+        frameworkUrl: "Rat_Run_Standard/Rat_Run_Standard.framework.js.gz",
+        codeUrl: "Rat_Run_Standard/Rat_Run_Standard.wasm.gz",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "DefaultCompany",
+        productName: "unity_project",
+        productVersion: "0.1",
+        // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
+        // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
+    }).then((unityInstance) => {window.unityInstance = unityInstance });
+    // Note that builds compressed with Brotli require HTTPS. This example uses gzip.
+</script>
+
+<script type="text/javascript">
+    // This will only work if the game is fully loaded, so I've put it on a 5 second timer.
+    // You can check whether gameInstance is null to determine if it is loaded.
+    setTimeout(function() {
+        if (gameInstance == null)
+            return;
+        gameInstance.SendMessage('Canvas', 'SetParticipantID',"hello")
+        
+    }, 5000);
+</script>
+
+</body>
+</html>
