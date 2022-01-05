@@ -7,6 +7,7 @@ public class TunnelManager : MonoBehaviour
 {
     [SerializeField] GameObject TunnelSection;
     [SerializeField] GameObject Obstacle;
+    [SerializeField] GameObject Finish;
     private int turningChance;
     private bool randomizeTurningSpeed;
     private float direction;
@@ -20,9 +21,7 @@ public class TunnelManager : MonoBehaviour
     private int sectionOffset = 20;
 
 
-
-    List<GameObject> Sections = new List<GameObject>();
-    public event Action<int, string, string> sectionInfo;
+    public event Action sendNewSectionInfo;
     public void SetupTunnelManager(int s, int tc, float d, bool rts)
     {
         sections = s;
@@ -35,17 +34,12 @@ public class TunnelManager : MonoBehaviour
         CreateNewSection();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Entrance")
         {
             currentSection = other.transform.parent.gameObject;
-            SendInfo();
+            SetCurrentSectionInfo();
             UpdateSections();
         }
 
@@ -71,10 +65,16 @@ public class TunnelManager : MonoBehaviour
         newSection.GetComponent<TunnelBehaviour>().ObstacleSetup(sections, turningChance, direction, randomizeTurningSpeed);
     }
 
-    private void SendInfo()
+    public void CreateFinish()
     {
-        ObstacleBehaviour.SectionInfo s = currentSection.GetComponentInChildren<ObstacleBehaviour>().GetSectionInfo();
-        sectionInfo(s.speed, s.color1, s.color2);
+        Vector3 finishPosition = nextTunnelPosition += Vector3.forward * (0.5f * sectionOffset);
+        Instantiate(Finish, finishPosition, Quaternion.identity);
+    }
+
+    private void SetCurrentSectionInfo()
+    {
+        currentSection.GetComponentInChildren<ObstacleBehaviour>().SetSectionInfo();
+        sendNewSectionInfo();
     }
 
 

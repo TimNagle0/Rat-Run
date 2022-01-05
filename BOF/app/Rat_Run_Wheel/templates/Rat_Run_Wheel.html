@@ -1,3 +1,34 @@
+{% extends "unity_webgl.html" %}
+
+{% set unityloader_path = "Rat_Run_Wheel/Rat_Run_Wheel.loader.js" %}
+{% set unity_parameters = {
+        "dataUrl": "Rat_Run_Wheel/Rat_Run_Wheel.data.gz",
+        "frameworkUrl": "Rat_Run_Wheel/Rat_Run_Wheel.framework.js.gz",
+        "codeUrl": "Rat_Run_Wheel/Rat_Run_Wheel.wasm.gz",
+        "streamingAssetsUrl": "StreamingAssets",
+        "companyName": "DefaultCompany",
+        "productName": "test",
+        "productVersion": "1.0"
+      } %}
+
+{# Note that builds compressed with Brotli require HTTPS. This example uses gzip. #}
+
+{% set width = 960 %}
+{% set height = 540 %}
+
+{% block content_extra %}
+    <script type="text/javascript">
+        // This will only work if the game is fully loaded, so I've put it on a 5 second timer.
+        // You can check whether gameInstance is null to determine if it is loaded.
+        setTimeout(function() {
+            if (gameInstance == null)
+                return;
+            gameInstance.SendMessage('Canvas', 'SetParticipantID', {{ session['participantID'] }})
+        }, 5000);
+    </script>
+{% endblock %}
+
+/*
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
@@ -6,7 +37,7 @@
     <title>Unity WebGL Player | unity_project</title>
 </head>
 <body style="text-align: center">
-<canvas id="unity-canvas" width=1600 height=900 style="width: 1600px; height: 900px; background: #231F20"></canvas>
+<canvas id="unity-canvas" width=960 height=540 style="width: 960px; height: 540px; background: #231F20"></canvas>
 
 
 <script src="Rat_Run_Wheel/Rat_Run_Wheel.loader.js"></script>
@@ -47,3 +78,4 @@
 
 </body>
 </html>
+*/

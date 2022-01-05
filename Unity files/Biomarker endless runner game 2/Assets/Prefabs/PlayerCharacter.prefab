@@ -1031,7 +1031,7 @@ GameObject:
   - component: {fileID: 3074863731393969001}
   - component: {fileID: 2619899128352706526}
   m_Layer: 0
-  m_Name: HerdSim Rat Mobile
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1108,6 +1108,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TunnelSection: {fileID: 1131740164079630403, guid: 4f18e006c59b966489741528749d553a, type: 3}
   Obstacle: {fileID: 2386270333518122081, guid: 12bc4fff0173c624fa76b5d96688e16d, type: 3}
+  Finish: {fileID: 5837024728004209267, guid: f233d0986ae73284dbd80ffa23a7d778, type: 3}
   canSpawn: 1
 --- !u!82 &3074863731393969001
 AudioSource:

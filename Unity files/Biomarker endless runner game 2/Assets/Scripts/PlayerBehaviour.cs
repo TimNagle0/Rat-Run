@@ -23,6 +23,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     public event Action increaseScore;
     public event Action takeDamage;
+    public event Action <float>finishLevel;
     public event Action <string,string> changeColor;
 
     void Start()
@@ -47,6 +48,10 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if(other.tag == "Entrance")
             {
+                return;
+            }else if (other.tag == "Finish")
+            {
+                finishLevel(2f);
                 return;
             }
 

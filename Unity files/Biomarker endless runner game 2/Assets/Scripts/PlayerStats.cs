@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.SceneManagement;
-
-public class PlayerStats : MonoBehaviour
+using UnityEngine;
+public class PlayerStats: MonoBehaviour
 {
     public static int lives;
     public static int currentLevel;
@@ -14,8 +11,18 @@ public class PlayerStats : MonoBehaviour
     public static int totalKeypresses;
     public static int falseKeyPresses;
     public static int totalDirectionChanges;
+    public static CurrentSectionInfo currentSectionInfo;
+
+    public struct CurrentSectionInfo
+    {
+        public float sectionSpeed;
+        public string sectionColor1;
+        public string sectionColor2;
+
+    }
+
     // Start is called before the first frame update
-    void Start()
+    public void Awake()
     {
         lives = 3;
         currentScore = 0;
@@ -26,11 +33,14 @@ public class PlayerStats : MonoBehaviour
         totalKeypresses = 0;
         falseKeyPresses = 0;
         totalDirectionChanges = 0;
+        currentSectionInfo = new CurrentSectionInfo();
     }
 
-    // Update is called once per frame
-    void Update()
+    public static void SetSectionInfo(float speed, string color1, string color2)
     {
-
+        currentSectionInfo.sectionSpeed = speed;
+        currentSectionInfo.sectionColor1 = color1;
+        currentSectionInfo.sectionColor2 = color2;
     }
+
 }

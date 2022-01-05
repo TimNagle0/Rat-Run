@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour
 {
     public PlayerInput player;
     public TunnelManager tunnelManager;
+    private PlayerBehaviour playerBehaviour;
 
     public float LevelTime;
     [Range(1,12)]public float speedMultiplier;
@@ -27,10 +28,11 @@ public class LevelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerBehaviour = player.GetComponentInChildren<PlayerBehaviour>();
         startTime = 0;
         isRunning = true;
         player.SetMovementSpeed(startSpeed);
-        player.SetMovementSpeed(startSpeed);
+        playerBehaviour.finishLevel += LoadNextLevelInSeconds;
         tunnelManager.SetupTunnelManager(sections, turningChance, movementDirection, randomizeTurningSpeed);
         
     }
@@ -38,6 +40,8 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Currently starts the levels with a much higher speed than intended
+        // FIX : change to time since level load and adjust values per level accordingly
         currentSpeed = Mathf.Sqrt(speedMultiplier*Time.time);
         if (currentSpeed > maxSpeed)
         {
@@ -52,7 +56,8 @@ public class LevelManager : MonoBehaviour
         {
             isRunning = false;
             tunnelManager.canSpawn = false;
-            Invoke("LoadNextLevel", 13 - speedMultiplier);
+            tunnelManager.CreateFinish();
+            //Invoke("LoadNextLevel", 13 - speedMultiplier);
         }
         if (PlayerStats.lives <= 0 && isRunning)
         {
@@ -68,6 +73,11 @@ public class LevelManager : MonoBehaviour
         }
         yield return new WaitForSeconds(delay);
         endLevel(level, false);
+    }
+
+    private void LoadNextLevelInSeconds(float seconds)
+    {
+        Invoke("LoadNextLevel", seconds);
     }
 
     private void LoadNextLevel()

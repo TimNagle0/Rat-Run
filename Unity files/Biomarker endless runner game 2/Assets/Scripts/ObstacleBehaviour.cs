@@ -76,6 +76,8 @@ public class ObstacleBehaviour : MonoBehaviour
         List<string> colors = new List<string>() { "red", "green", "blue" };
         int spot_1 = UnityEngine.Random.Range(0, sections.Count);
         int spot_2 = UnityEngine.Random.Range(0, sections.Count);
+
+
         if (spot_1 == spot_2 && spot_1 != 0)
         {
             spot_2 = 0;
@@ -89,21 +91,12 @@ public class ObstacleBehaviour : MonoBehaviour
         sections[spot_2].SetColor(obstacleColors[sectionColor2], sectionColor2);
     }
 
-    public class SectionInfo {
-        public int speed;
-        public string color1;
-        public string color2;
-
-    }
-
-
-    public SectionInfo GetSectionInfo()
+    public void SetSectionInfo()
     {
-        SectionInfo s = new SectionInfo();
-        s.speed = (int) angularMovementSpeed * movementDirection;
-        s.color1 = sectionColor1;
-        s.color2 = sectionColor2;
-        return s;
+        float speed = angularMovementSpeed * movementDirection;
+        string color1 = sectionColor1;
+        string color2 = sectionColor2;
+        PlayerStats.SetSectionInfo(speed, color1, color2);
         
     }
 
@@ -132,12 +125,12 @@ public class ObstacleBehaviour : MonoBehaviour
         obstacleColors.Add("pink", pink);
         obstacleColors.Keys.CopyTo(keys,0);
     }
-    // Update is called once per frame
+
+
     void Update()
     {
         if (!canMove)
             return;
-
 
         float angle = movementDirection * angularMovementSpeed * Time.deltaTime;
         transform.Rotate(0, 0, angle);

@@ -27,7 +27,7 @@ public class ExperimentManager : MonoBehaviour
     private string startTimeExperiment = "";
     private int currentLevel;
     private int currentTarget;
-    private int targetRotationSpeed;
+    private string targetRotationSpeed;
     private string currentTargetColor1 = "";
     private string currentTargetColor2 = "";
 
@@ -38,13 +38,12 @@ public class ExperimentManager : MonoBehaviour
     #region Events
     private void SubscribeToEvents()
     {
-        
         playerBehaviour.changeColor += ColorChange;
         playerInput.movement += Movement;
         playerBehaviour.increaseScore += TargetPassed;
         playerBehaviour.takeDamage += TargetFailed;
         playerBehaviour.changeColor += ColorChange;
-        tunnelManager.sectionInfo += TargetInfo;
+        tunnelManager.sendNewSectionInfo += TargetInfo;
         levelManager.endLevel += LoadLevel;
         
     }
@@ -71,12 +70,12 @@ public class ExperimentManager : MonoBehaviour
         PrepareContinuousDataPoint("targetFailed");
     }
 
-    private void TargetInfo(int speed, string color1, string color2)
+    private void TargetInfo()
     {
         currentTarget++;
-        targetRotationSpeed = speed;
-        currentTargetColor1 = color1;
-        currentTargetColor2 = color2;
+        targetRotationSpeed = PlayerStats.currentSectionInfo.sectionSpeed.ToString();
+        currentTargetColor1 = PlayerStats.currentSectionInfo.sectionColor1;
+        currentTargetColor2 = PlayerStats.currentSectionInfo.sectionColor2;
         PrepareContinuousDataPoint("targetInfo");
     }
 

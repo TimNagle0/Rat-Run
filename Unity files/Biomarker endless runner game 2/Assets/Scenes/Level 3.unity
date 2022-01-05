@@ -123,11 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!82 &68205771 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 3074863731393969001, guid: f522683ee85166749acf9344470de3cf, type: 3}
-  m_PrefabInstance: {fileID: 3602451839070576742}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &68205773 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 702082830607555856, guid: f522683ee85166749acf9344470de3cf, type: 3}
@@ -482,18 +477,6 @@ PrefabInstance:
       propertyPath: volume
       value: 
       objectReference: {fileID: 447980739}
-    - target: {fileID: 702082830607555856, guid: f522683ee85166749acf9344470de3cf, type: 3}
-      propertyPath: audioSource
-      value: 
-      objectReference: {fileID: 68205771}
-    - target: {fileID: 2152940570934617296, guid: f522683ee85166749acf9344470de3cf, type: 3}
-      propertyPath: m_ClearFlags
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2834393562831507582, guid: f522683ee85166749acf9344470de3cf, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
     - target: {fileID: 3602451838531988338, guid: f522683ee85166749acf9344470de3cf, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -542,12 +525,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerCharacter
       objectReference: {fileID: 0}
-    - target: {fileID: 3602451838667906372, guid: f522683ee85166749acf9344470de3cf, type: 3}
-      propertyPath: volume
-      value: 
-      objectReference: {fileID: 447980739}
-    m_RemovedComponents:
-    - {fileID: 1860888782340056035, guid: f522683ee85166749acf9344470de3cf, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f522683ee85166749acf9344470de3cf, type: 3}
 --- !u!1001 &4164586413356452849
 PrefabInstance:
