@@ -38,6 +38,7 @@ public class PlayerStats: MonoBehaviour
 
     public static void SetSectionInfo(float speed, string color1, string color2)
     {
+        Debug.Log("Section speed: " + speed);
         currentSectionInfo.sectionSpeed = speed;
         currentSectionInfo.sectionColor1 = color1;
         currentSectionInfo.sectionColor2 = color2;

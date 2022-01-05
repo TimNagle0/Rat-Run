@@ -27,7 +27,7 @@ public class ExperimentManager : MonoBehaviour
     private string startTimeExperiment = "";
     private int currentLevel;
     private int currentTarget;
-    private string targetRotationSpeed;
+    private int targetRotationSpeed;
     private string currentTargetColor1 = "";
     private string currentTargetColor2 = "";
 
@@ -73,9 +73,10 @@ public class ExperimentManager : MonoBehaviour
     private void TargetInfo()
     {
         currentTarget++;
-        targetRotationSpeed = PlayerStats.currentSectionInfo.sectionSpeed.ToString();
+        targetRotationSpeed = (int)PlayerStats.currentSectionInfo.sectionSpeed;
         currentTargetColor1 = PlayerStats.currentSectionInfo.sectionColor1;
         currentTargetColor2 = PlayerStats.currentSectionInfo.sectionColor2;
+        Debug.Log("Target rotation speed:  " + targetRotationSpeed);
         PrepareContinuousDataPoint("targetInfo");
     }
 
@@ -174,6 +175,7 @@ public class ExperimentManager : MonoBehaviour
 
         ContinuousData dataPoint = new ContinuousData(currentLevel, currentTarget, currentTargetColor1, currentTargetColor2);
         dataPoint.dataType = category;
+        dataPoint.targetRotationSpeed = targetRotationSpeed;
         dataPoint.currentSpeed = GetCurrentSpeed();
         dataPoint.currentColor = GetCurrentColor();
 
@@ -185,6 +187,7 @@ public class ExperimentManager : MonoBehaviour
 
         ContinuousData dataPoint = new ContinuousData(currentLevel, currentTarget, currentTargetColor1, currentTargetColor2);
         dataPoint.dataType = category;
+        dataPoint.targetRotationSpeed = targetRotationSpeed;
         dataPoint.currentSpeed = GetCurrentSpeed();
         dataPoint.currentColor = oldColor;
         dataPoint.newColor = newColor;

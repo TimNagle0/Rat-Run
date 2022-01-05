@@ -96,7 +96,17 @@ public class ObstacleBehaviour : MonoBehaviour
         float speed = angularMovementSpeed * movementDirection;
         string color1 = sectionColor1;
         string color2 = sectionColor2;
-        PlayerStats.SetSectionInfo(speed, color1, color2);
+        if (canMove)
+        {
+            PlayerStats.SetSectionInfo(speed, color1, color2);
+        }
+        else
+        {
+            PlayerStats.SetSectionInfo(0, color1, color2);
+        }
+        
+
+        
         
     }
 
