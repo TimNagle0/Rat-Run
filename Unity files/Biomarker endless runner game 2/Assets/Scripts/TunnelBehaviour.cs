@@ -21,8 +21,6 @@ public class TunnelBehaviour : MonoBehaviour
         bool canMove = tc <= turningChance;
         ObstacleBehaviour ob = currentObstacle.GetComponent<ObstacleBehaviour>();
         ob.ObstacleSetup(ring,canMove, Random.value > moveDirection,50,20);
-
-        
     }
 
 }

@@ -15,21 +15,15 @@ public class UIController : MonoBehaviour
 
     [SerializeField]
     Text levelPerm;
-    // Start is called before the first frame update
+
     void Start()
     {
         Level.text = string.Format("Level {0}", (SceneManager.GetActiveScene().buildIndex - 2));
         levelPerm.text = string.Format("Level: {0}", (SceneManager.GetActiveScene().buildIndex - 2));
-        //Lives = transform.GetChild(0).gameObject.GetComponent<Text>();
-        //Score = transform.GetChild(1).gameObject.GetComponent<Text>();
-        //GameOverScreen = transform.GetChild(2).gameObject;
         Invoke("DisableLevelText", 2f);
-
 
         player.takeDamage += UpdateLives;
         player.increaseScore += UpdateScore;
-
-
     }
 
     private void DisableLevelText()
@@ -47,11 +41,4 @@ public class UIController : MonoBehaviour
         lives.TakeDamage();
 
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
 }

@@ -6,32 +6,28 @@ using System;
 public class PlayerInput : MonoBehaviour
 {
     [SerializeField] PlayerBehaviour player;
+
+    // Variables for player movement
     public float angularMovementSpeed = 50;
     public float forwardMovementSpeed = 10;
     public float maxMovementSpeed = 18;
     public float movementDirection = 0;
 
-
+    // Keycodes for changing color
     private KeyCode red = KeyCode.J;
     private KeyCode green = KeyCode.K;
     private KeyCode blue = KeyCode.L;
 
-    private List<KeyCode> keycodes;
-
-    public float interval = 5;
-    public int increase = 2;
-    private float lastTime;
-    public float angle;
+    // Variables for keeping track of the player location
     private float distanceToCenter;
     private float lastDirection;
 
     public event Action<string> movement;
+
     private void Start()
     {
-        keycodes = new List<KeyCode>() { red, green, blue };
         lastDirection = 0;
         distanceToCenter = Vector3.Distance(transform.position, transform.GetChild(0).position);
-        lastTime = Time.time;
     }
     private void Update()
     {
@@ -74,6 +70,7 @@ public class PlayerInput : MonoBehaviour
     }
     private void RotatePlayer()
     {
+        // Updating the player location based on input
         movementDirection = Input.GetAxisRaw("Horizontal");
         if (movementDirection > 0 && movementDirection != lastDirection)
         {
@@ -84,6 +81,7 @@ public class PlayerInput : MonoBehaviour
             movement("left");
         }
 
+        // Keeping track of player location and movement for data collection
         if (movementDirection != lastDirection && movementDirection != 0)
         {
             PlayerStats.totalKeypresses++;
@@ -93,7 +91,7 @@ public class PlayerInput : MonoBehaviour
             PlayerStats.totalDirectionChanges++;
         }
         lastDirection = movementDirection;
-        angle = movementDirection * angularMovementSpeed * Time.deltaTime;
+        float angle = movementDirection * angularMovementSpeed * Time.deltaTime;
         float distanceMoved = Mathf.Deg2Rad * angle * distanceToCenter;
         PlayerStats.totalDistanceMoved += (int)distanceMoved;
         transform.Rotate(0, 0, angle);

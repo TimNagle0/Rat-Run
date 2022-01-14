@@ -362,9 +362,9 @@ MonoBehaviour:
   player: {fileID: 1626406986}
   tunnelManager: {fileID: 1550964042}
   LevelTime: 30
-  speedMultiplier: 10
-  startSpeed: 7
-  maxSpeed: 16
+  speedMultiplier: 11
+  startSpeed: 13
+  maxSpeed: 20
   sections: 7
   turningChance: 2
   movementDirection: 0.5

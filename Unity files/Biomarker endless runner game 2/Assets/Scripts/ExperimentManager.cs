@@ -7,14 +7,13 @@ using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
 
+// Class that handles all the data collection, form creation and communication with the BOF framework
+// 
 public class ExperimentManager : MonoBehaviour
 {
-    //BOF STUFF
-    // Imports of JS functions defined in the .jslib in Plugins folder 
+    // Loads in the BOF plugin function for closing the game
     [DllImport("__Internal")]
     public static extern void RedirectBOF();
-    [DllImport("__Internal")]
-    public static extern void RequestConfigFromJS();
 
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] private PlayerBehaviour playerBehaviour;
@@ -36,6 +35,9 @@ public class ExperimentManager : MonoBehaviour
     #endregion
 
     #region Events
+    // Subscribe to all the events that should send a datapoint to the database
+    // Each event sends a datapoint with the specific data in the parameters
+    // and the generic data stored in the playerstats class
     private void SubscribeToEvents()
     {
         playerBehaviour.changeColor += ColorChange;
@@ -45,12 +47,13 @@ public class ExperimentManager : MonoBehaviour
         playerBehaviour.changeColor += ColorChange;
         tunnelManager.sendNewSectionInfo += TargetInfo;
         levelManager.endLevel += LoadLevel;
-        
     }
+
     private void LoadLevel(int level, bool isLast)
     {
         PrepareSummaryDataPoint(level, isLast);
     }
+
     private void ColorChange(string oldColor, string newColor)
     {
         PrepareContinuousDataPoint("colorChange", oldColor, newColor);
@@ -65,6 +68,7 @@ public class ExperimentManager : MonoBehaviour
     {
         PrepareContinuousDataPoint("targetPassed");
     }
+
     private void TargetFailed()
     {
         PrepareContinuousDataPoint("targetFailed");
@@ -76,14 +80,13 @@ public class ExperimentManager : MonoBehaviour
         targetRotationSpeed = (int)PlayerStats.currentSectionInfo.sectionSpeed;
         currentTargetColor1 = PlayerStats.currentSectionInfo.sectionColor1;
         currentTargetColor2 = PlayerStats.currentSectionInfo.sectionColor2;
-        Debug.Log("Target rotation speed:  " + targetRotationSpeed);
         PrepareContinuousDataPoint("targetInfo");
     }
 
     #endregion
     #region retrieving player data
 
-
+    // Functions for getting player data that is not stored in the playerstats class
     private int GetCurrentSpeed()
     {
         return (int)playerInput.forwardMovementSpeed;
@@ -96,6 +99,9 @@ public class ExperimentManager : MonoBehaviour
     #endregion
 
     #region Data Classes
+    // These are the classes with all the data for the different databases.
+    // The continuous data is for all the data that is gathered during the level,
+    // and the summary data is for all the data that is sent at the end of the level.
     public class ContinuousData
     {
         public int level { get; set; }
@@ -142,7 +148,8 @@ public class ExperimentManager : MonoBehaviour
         }
     }
     #endregion
-    // Start is called before the first frame update
+
+
     void Start()
     {
         uiController = GameObject.Find("UI").GetComponent<UIController>();
@@ -151,6 +158,9 @@ public class ExperimentManager : MonoBehaviour
         SubscribeToEvents();
     }
 
+
+    // Check if the max experiment time has been reached,
+    // if so, allow players to instantly end the game by pressing E.
     private void Update()
     {
         if (Time.time > maxExperimentTime)
@@ -170,10 +180,11 @@ public class ExperimentManager : MonoBehaviour
 
     #region Datapoint methods
 
+    // Populate all the fields in the data classes before sending them to be converted to forms
     public void PrepareContinuousDataPoint(string category)
     {
-
         ContinuousData dataPoint = new ContinuousData(currentLevel, currentTarget, currentTargetColor1, currentTargetColor2);
+
         dataPoint.dataType = category;
         dataPoint.targetRotationSpeed = targetRotationSpeed;
         dataPoint.currentSpeed = GetCurrentSpeed();
@@ -182,10 +193,11 @@ public class ExperimentManager : MonoBehaviour
         SendFilesContinuous(dataPoint);
     }
 
+    // An overload method for the datapoint function if the player changes color.
     public void PrepareContinuousDataPoint(string category, string oldColor, string newColor)
     {
-
         ContinuousData dataPoint = new ContinuousData(currentLevel, currentTarget, currentTargetColor1, currentTargetColor2);
+
         dataPoint.dataType = category;
         dataPoint.targetRotationSpeed = targetRotationSpeed;
         dataPoint.currentSpeed = GetCurrentSpeed();
@@ -198,7 +210,6 @@ public class ExperimentManager : MonoBehaviour
 
     public void PrepareSummaryDataPoint(int level, bool isLast)
     {
-
         SummaryData dataPoint = new SummaryData(startTimeExperiment, currentLevel);
 
         dataPoint.totalTime = (int)Time.timeSinceLevelLoad;
@@ -213,25 +224,23 @@ public class ExperimentManager : MonoBehaviour
         SendFilesSummary(dataPoint, level, isLast);
     }
 
+    // Creating forms using the datapoint classes and sending them to the database
     public void SendFilesContinuous(ContinuousData dataPoint)
     {
         WWWForm form;
         form = AddFieldsContinuous(dataPoint);
         StartCoroutine(SendFiles(form, false, 0, false));
-
     }
 
     public void SendFilesSummary(SummaryData dataPoint, int level, bool isLast)
     {
-
         WWWForm form;
         form = AddFieldsSummary(dataPoint);
         StartCoroutine(SendFiles(form, true, level, isLast));
-
-
-
     }
 
+    // Create the forms to be sent with unity webrequests,
+    // each form has an identifier so the BOF framework will know in which database it should be stored.
     private WWWForm AddFieldsContinuous(ContinuousData data)
     {
         WWWForm form = new WWWForm();
@@ -270,6 +279,9 @@ public class ExperimentManager : MonoBehaviour
 
     #endregion
 
+    // Send the forms with data to the databases using Unity webrequests.
+    // Also check if the current form is the last form that needs to be sent
+    // (so the summary of the last level or when players quit the game) and continue to the questionnaires.
     public IEnumerator SendFiles(WWWForm form, bool loadNext, int level, bool isFinalForm)
     {
         // Instead of the URL we can use # to get to the same route as the game was delivered on

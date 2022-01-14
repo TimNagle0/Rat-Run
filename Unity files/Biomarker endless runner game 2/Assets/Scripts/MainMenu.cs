@@ -13,7 +13,6 @@ public class MainMenu : MonoBehaviour
         Invoke("DisableCredits", 2f);
     }
 
-
    void DisableCredits()
    {
         credits.SetActive(false);
@@ -22,10 +21,5 @@ public class MainMenu : MonoBehaviour
     public void LoadLevel(int level)
     {
         SceneManager.LoadScene(level);
-    }
-
-    public void ShowLevelSelection()
-    {
-
     }
 }

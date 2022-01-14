@@ -6,7 +6,7 @@ using System;
 
 public class ObstacleBehaviour : MonoBehaviour
 {
-
+    // A class for obstacle sections to set their color and tags
     private class ObstacleSection
     {
         public GameObject section;
@@ -30,6 +30,7 @@ public class ObstacleBehaviour : MonoBehaviour
 
 
     }
+
     public float angularMovementSpeed;
     public float angularVariance;
     private bool canMove = false;
@@ -37,17 +38,20 @@ public class ObstacleBehaviour : MonoBehaviour
 
     private string sectionColor1 = "";
     private string sectionColor2 = "";
+
+    // A list with the different rings of 3-7 sections
     [SerializeField] private List<GameObject> rings = new List<GameObject>();
+    // A list with the sections of this obstacles ring
+    private List<ObstacleSection> sections = new List<ObstacleSection>();
     Dictionary<string, Color> obstacleColors = new Dictionary<string, Color>();
     string[] keys = new string[7];
-
-    private List<ObstacleSection> sections = new List<ObstacleSection>();
 
     public event Action<int, string, string> sectionInfo;
 
     public void ObstacleSetup(int ring, bool move, bool moveRight, float speed, float variance)
     {
         CreateColors();
+        // Create the ring and add the sections to the section list
         GameObject currentRing = Instantiate(rings[ring], transform);
         MeshRenderer[] currentSections = currentRing.GetComponentsInChildren<MeshRenderer>();
         foreach(MeshRenderer s in currentSections)
@@ -71,6 +75,7 @@ public class ObstacleBehaviour : MonoBehaviour
         angularMovementSpeed = UnityEngine.Random.Range(speed - variance, speed + variance);
     }
 
+    // A function that sets 2 random sections of the ring to colors that the player can change into.
     private void SetStartingSections()
     {
         List<string> colors = new List<string>() { "red", "green", "blue" };
@@ -91,6 +96,21 @@ public class ObstacleBehaviour : MonoBehaviour
         sections[spot_2].SetColor(obstacleColors[sectionColor2], sectionColor2);
     }
 
+    // This function colors the rest of the sections, the colors can still be red,green or blue.
+    private void ColorSections()
+    {
+        foreach (ObstacleSection os in sections)
+        {
+            if (!os.hasColor)
+            {
+                string color = keys[UnityEngine.Random.Range(0, 7)];
+                os.SetColor(obstacleColors[color], color);
+            }
+        }
+    }
+
+
+    // Sets the variables in the playerstats class to this section
     public void SetSectionInfo()
     {
         float speed = angularMovementSpeed * movementDirection;
@@ -103,24 +123,10 @@ public class ObstacleBehaviour : MonoBehaviour
         else
         {
             PlayerStats.SetSectionInfo(0, color1, color2);
-        }
-        
-
-        
-        
+        }   
     }
 
-    private void ColorSections()
-    {
-        foreach(ObstacleSection os in sections)
-        {
-            if (!os.hasColor)
-            {
-                string color = keys[UnityEngine.Random.Range(0, 7)];
-                os.SetColor(obstacleColors[color], color);
-            }
-        }
-    }
+
 
     private void CreateColors()
     {

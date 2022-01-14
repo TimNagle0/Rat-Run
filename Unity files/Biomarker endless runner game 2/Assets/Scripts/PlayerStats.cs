@@ -1,5 +1,10 @@
 using UnityEngine.SceneManagement;
 using UnityEngine;
+
+
+
+// A Simple data class for storing all the data that is being used for research
+// Also keeps track of the players' lives, score and the current level for gameplay purposes
 public class PlayerStats: MonoBehaviour
 {
     public static int lives;
@@ -21,7 +26,6 @@ public class PlayerStats: MonoBehaviour
 
     }
 
-    // Start is called before the first frame update
     public void Awake()
     {
         lives = 3;

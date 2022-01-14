@@ -363,8 +363,8 @@ MonoBehaviour:
   tunnelManager: {fileID: 1550964042}
   LevelTime: 30
   speedMultiplier: 2
-  startSpeed: 5
-  maxSpeed: 16
+  startSpeed: 8
+  maxSpeed: 20
   sections: 3
   turningChance: 0
   movementDirection: 0.5

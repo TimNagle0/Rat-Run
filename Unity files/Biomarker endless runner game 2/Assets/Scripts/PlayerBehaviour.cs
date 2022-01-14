@@ -40,10 +40,13 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // If the player is moving really fast there is some hit protection,
+        // atm this is useless as the sections are far enough apart, but might be needed when adding obstacles.
         if (Time.time - lastHit < hitProtection)
             return;
         lastHit = Time.time;
 
+        // Collision checks for the sections that collide with the player
         if(other.tag != gameObject.tag)
         {
             if(other.tag == "Entrance")
@@ -54,7 +57,6 @@ public class PlayerBehaviour : MonoBehaviour
                 finishLevel(2f);
                 return;
             }
-
             TakeDamage();
             Destroy(other.transform.parent.parent.gameObject);
         }
@@ -63,7 +65,6 @@ public class PlayerBehaviour : MonoBehaviour
             increaseScore();
             Destroy(other.transform.parent.gameObject);
         }
-
     }
     private void TakeDamage()
     {
@@ -71,7 +72,6 @@ public class PlayerBehaviour : MonoBehaviour
         PlayerStats.lives--;
         audioSource.Play();
         StartCoroutine(VignetteBlink(0.5f, 2));
-        //StartCoroutine(ColorBlink(4, 1f));
     }
 
     public void ChangeColor(string color)

@@ -29,11 +29,14 @@ public class TunnelManager : MonoBehaviour
         direction = d;
         randomizeTurningSpeed = rts;
 
+        // Create the initial tunnel sections at the start
         CreateNewSection();
         nextTunnelPosition = startPosition + sectionOffset * Vector3.forward;
         CreateNewSection();
     }
 
+    // If the player enters a new tunnel section, update the section info for data collection.
+    // Also destroy the last section and create a new one in front of the player.
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Entrance")

@@ -10,10 +10,17 @@ public class LevelManager : MonoBehaviour
     public TunnelManager tunnelManager;
     private PlayerBehaviour playerBehaviour;
 
+    [Header("Time in seconds that the level should last")]
     public float LevelTime;
+
+    [Header("Controls how fast the player speed multiplies")]
     [Range(1,12)]public float speedMultiplier;
+
+
     public float startSpeed;
     public float maxSpeed;
+
+    [Header("Control the amount of sections in each wheel and it's turning chance")]
     [Range(3,7)]public int sections;
     [Range(0, 3)] public int turningChance;
     [Header("0 is right, 0.5 is random, 1 is left")]
@@ -25,7 +32,8 @@ public class LevelManager : MonoBehaviour
     private bool isRunning;
 
     public event Action<int, bool> endLevel;
-    // Start is called before the first frame update
+
+
     void Start()
     {
         playerBehaviour = player.GetComponentInChildren<PlayerBehaviour>();
@@ -37,34 +45,33 @@ public class LevelManager : MonoBehaviour
         
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // Currently starts the levels with a much higher speed than intended
-        // FIX : change to time since level load and adjust values per level accordingly
-        currentSpeed = Mathf.Sqrt(speedMultiplier*Time.time);
-        if (currentSpeed > maxSpeed)
-        {
-            currentSpeed = maxSpeed;
-        }else if (currentSpeed < startSpeed)
-        {
-            currentSpeed = startSpeed;
-        }
-        player.SetMovementSpeed(currentSpeed);
+        UpdatePlayerSpeed();
 
-        if(Time.timeSinceLevelLoad > LevelTime && isRunning)
+        // Stops the spawning of tunnel sections and creates a finish trigger at the last section
+        if (Time.timeSinceLevelLoad > LevelTime && isRunning)
         {
             isRunning = false;
             tunnelManager.canSpawn = false;
             tunnelManager.CreateFinish();
-            //Invoke("LoadNextLevel", 13 - speedMultiplier);
         }
+
+        // Checks if the player has run out of lives and sets them back 2 levels
         if (PlayerStats.lives <= 0 && isRunning)
         {
             isRunning = false;
-            StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex - 2, 1));
+            StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex - 2, 0.5f));
         }
     }
+
+    // Setting the speed of the player based on the multiplier and time spent in the level
+    private void UpdatePlayerSpeed()
+    {
+        currentSpeed = Mathf.Clamp(Mathf.Sqrt(speedMultiplier * Time.timeSinceLevelLoad),startSpeed,maxSpeed);
+        player.SetMovementSpeed(currentSpeed);
+    }
+
     private IEnumerator LoadLevel(int level, float delay)
     {
         if (level < 3)
@@ -80,6 +87,7 @@ public class LevelManager : MonoBehaviour
         Invoke("LoadNextLevel", seconds);
     }
 
+    // Checks if there is a next level to be loaded, otherwise ends the game
     private void LoadNextLevel()
     {
         int level = SceneManager.GetActiveScene().buildIndex + 1;
